@@ -10,8 +10,8 @@ print(SERVER)
 ADDR = (SERVER, PORT)
 DISCONNECT_MESSAGE = "!DISCONNECT"
 class ServerPage(tk.Frame):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
         self.server=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind(ADDR)
         self.conn = None
