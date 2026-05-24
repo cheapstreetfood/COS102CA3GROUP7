@@ -1,3 +1,4 @@
+
 from discoverpage import *
 from discoverpage import DiscoverPage
 import tkinter as tk
@@ -65,7 +66,6 @@ tk.Label(column3, text="Cultivate\nConnections", font=("black italic", 18, "bold
 tk.Button(column3, text="👥", font=("black italic", 60), fg=ACCENT_COLOR, bg=BG_COLOR,
         relief="flat", activebackground=BG_COLOR, activeforeground="#ff6b52", bd=0,
         cursor="hand2", command=click_cultivate).pack()
-
 
 
 root.mainloop()
