@@ -1,9 +1,7 @@
-
 import tkinter as tk
 from PIL import ImageTk, Image
 
-from message_panel import MessagePanel
-# from connect_panel import ConnectPanel
+from connect_panel import ConnectPanel
 from server import *
 from server import ServerPage
 
@@ -110,7 +108,7 @@ class DiscoverPage(tk.Toplevel):
 
         self.panels = {}
 
-        for PanelClass in (DiscoverPanel, MessagePanel, ServerPage):
+        for PanelClass in (DiscoverPanel, ConnectPanel, ServerPage):
             panel_name = PanelClass.__name__
             instance = PanelClass(parent=self.main_view_container)
             self.panels[panel_name] = instance
@@ -136,12 +134,7 @@ class DiscoverPage(tk.Toplevel):
         self.panels["DiscoverPanel"].tkraise()
 
     def show_messages(self):
-        self.panels["MessagePanel"].tkraise()
+        self.panels["ConnectPanel"].tkraise()
 
     def show_connect(self):
         self.panels["ServerPage"].tkraise()
-
-
-#if __name__ == "__main__":
-#    app = DiscoverPage()
-#    app.mainloop()
