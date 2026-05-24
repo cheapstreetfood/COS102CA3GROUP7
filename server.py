@@ -94,7 +94,7 @@ class ServerPage(tk.Frame):
         bubble_color = "#1e3a6e" if is_right else "#2a2d3e"
         text_color = "#e8eaf0"
 
-        row = tk.Frame(self.bubble_frame, bg="#2b2f43")
+        row = tk.Frame(self.bubble_frame, bg="#0d0f1a")
         row.pack(fill="x", padx=10, pady=4)
 
         bubble = tk.Label(

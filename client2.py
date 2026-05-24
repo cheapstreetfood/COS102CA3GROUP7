@@ -5,7 +5,7 @@ import tkinter as tk
 HEADER = 64
 FORMAT = "utf-8"
 PORT = 5050
-SERVER = "172.28.64.161"
+SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 
 def send(msg):
