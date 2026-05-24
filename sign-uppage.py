@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-def enter():
+def ():
     print("enter")
 
 # Global appearance settings
