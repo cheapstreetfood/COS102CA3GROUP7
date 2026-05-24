@@ -1,6 +1,5 @@
-import landpage as lp
-from landpage import *
-from landpage import DiscoverPage
+from discoverpage import *
+from discoverpage import DiscoverPage
 import tkinter as tk
 
 

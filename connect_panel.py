@@ -4,21 +4,11 @@ import tkinter as tk
 from tkinter import messagebox
 
 class ConnectPanel(tk.Frame):
-#    def __init__(self, parent, *args, **kwargs):
-#        super().__init__(parent, *args, **kwargs)
-#        self.config(bg="#171923")
-#        
-#        label = tk.Label(self, text="💬 Messages Inbox", fg="white", bg="#171923", font=("Arial", 24, "bold"))
-#        label.pack(expand=True)
-
 
     def __init__(self, parent, csv_filename="kulture.csv", **kwargs):
         super().__init__(parent, **kwargs)
         self.csv_filename = csv_filename
 
-        # ==========================================
-        # SECTION 1: Profile & Bio Layout
-        # ==========================================
         profile_container = tk.Frame(self, bd=2, relief="groove", bg="#171923")
         profile_container.pack(fill="x", padx=10, pady=5)
 
@@ -40,9 +30,6 @@ class ConnectPanel(tk.Frame):
             fg="white",
         ).pack(anchor="w", padx=10, pady=(0, 10))
 
-        # ==========================================
-        # SECTION 2: Friend List Layout
-        # ==========================================
         friends_container = tk.Frame(self, bd=2, relief="groove", bg="#171923")
         friends_container.pack(fill="both", expand=True, padx=10, pady=5)
 
@@ -58,7 +45,7 @@ class ConnectPanel(tk.Frame):
         table_container = tk.Frame(friends_container, bg="#171923")
         table_container.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
-        # Column Header (Now just 'Name')
+
         tk.Label(
             table_container,
             text="Name",
@@ -81,7 +68,6 @@ class ConnectPanel(tk.Frame):
         table_container.grid_rowconfigure(1, weight=1)
         table_container.grid_columnconfigure(0, weight=1)
 
-        # Populate listbox on initialization
         self.load_friends_from_csv()
 
     def load_friends_from_csv(self):
@@ -100,7 +86,7 @@ class ConnectPanel(tk.Frame):
                 self.csv_filename, mode="r", newline="", encoding="utf-8"
             ) as file:
                 reader = csv.reader(file)
-                next(reader)  # Skip headers
+                next(reader)  
 
                 for row in reader:
                     # Check if the row has data before trying to access index 0
