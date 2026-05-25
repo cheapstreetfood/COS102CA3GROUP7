@@ -1,4 +1,3 @@
-# COS102CA3
 Our App is meant to connect people across the world through social connection, messaging and finding people on a feed
 
 

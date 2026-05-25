@@ -2,7 +2,6 @@ import csv
 import os
 import tkinter as tk
 from tkinter import messagebox
-
 class ConnectPanel(tk.Frame):
 
     def __init__(self, parent, csv_filename="kulture.csv", **kwargs):
