@@ -1,6 +1,7 @@
 import tkinter as tk
 from pathlib import Path  # Modern and secure filesystem path management
 from PIL import ImageTk, Image
+
 from connect_panel import ConnectPanel
 from server import *
 from server import ServerPage
@@ -11,6 +12,7 @@ class ImageTextWidget(tk.Frame):
         super().__init__(parent, *args, **kwargs)
         self.config(bg=bg_color)
         
+        # Absolute path resolution ensures images load regardless of where the launcher file runs
         current_dir = Path(__file__).parent.resolve()
         pfp_path = current_dir / pfp_name
         main_image_path = current_dir / main_image_name
@@ -104,7 +106,7 @@ class DiscoverPage(tk.Toplevel):
         self.dashframe.pack_propagate(False)
         self.dashframe.pack(side="left", fill="y")
 
-        # Dynamic internal path checking
+        # Dynamic internal path checking to stop image collection bugs
         current_dir = Path(__file__).parent.resolve()
         discover_path = current_dir / "discovericon.png"
         message_path = current_dir / "connecticon.png"
@@ -118,8 +120,8 @@ class DiscoverPage(tk.Toplevel):
         self.main_view_container.pack(side="left", fill="both", expand=True, padx=40, pady=40)
 
         self.panels = {}
-        
-        for PanelClass in (DiscoverPanel, ConnectPanel, ServerPage): 
+
+        for PanelClass in (DiscoverPanel, ConnectPanel, ServerPage):
             panel_name = PanelClass.__name__
             instance = PanelClass(parent=self.main_view_container)
             self.panels[panel_name] = instance
@@ -130,12 +132,15 @@ class DiscoverPage(tk.Toplevel):
 
         self.dbutton = tk.Button(self.dashframe, image=self.discovericon, bg="#282C3E", bd=0, command=self.show_discover)
         self.dbutton.pack(side="top", pady=(45, 37))
+        self.dbutton.image = self.discovericon  # Retain visibility reference
 
         self.mbutton = tk.Button(self.dashframe, image=self.messageicon, bg="#282C3E", bd=0, command=self.show_messages)
         self.mbutton.pack(side="top", pady=(0, 45))
+        self.mbutton.image = self.messageicon  # Retain visibility reference
 
         self.cbutton = tk.Button(self.dashframe, image=self.connecticon, bg="#282C3E", bd=0, command=self.show_connect)
         self.cbutton.pack(side="top", pady=(0, 37))
+        self.cbutton.image = self.connecticon  # Retain visibility reference
 
         self.panels["DiscoverPanel"].tkraise()
 
@@ -143,8 +148,7 @@ class DiscoverPage(tk.Toplevel):
         self.panels["DiscoverPanel"].tkraise()
 
     def show_messages(self):
-        if "ConnectPanel" in self.panels:
-            self.panels["ConnectPanel"].tkraise()
+        self.panels["ServerPage"].tkraise()
 
     def show_connect(self):
         self.panels["ServerPage"].tkraise()

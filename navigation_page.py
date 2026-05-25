@@ -1,21 +1,17 @@
-
-from discoverpage import *
-from discoverpage import DiscoverPage
 import tkinter as tk
-
+from discoverpage import DiscoverPage
 
 def launch_discover():
+
     discover_window = DiscoverPage(root)
+
 
 # Color Palette
 BG_COLOR = "#171923"
 ACCENT_COLOR = "#DC2F02"
 text_color= "#ffffff"
 
-#  Buttons functions
-def click_discover():
-    pass
-
+# Buttons functions
 def click_build():
     pass
 
@@ -32,7 +28,7 @@ root.configure(bg=BG_COLOR)
 logo_frame = tk.Frame(root, bg=BG_COLOR)
 logo_frame.pack(pady=(30, 200))
 
-logo_label = tk.Label( logo_frame, text="🌍 KULTURE", font=("Arial Black", 48, "italic"), fg=ACCENT_COLOR, bg=BG_COLOR )
+logo_label = tk.Label(logo_frame, text="🌍 KULTURE", font=("Arial Black", 48, "italic"), fg=ACCENT_COLOR, bg=BG_COLOR)
 logo_label.pack()
 
 # buttons columns
@@ -66,6 +62,5 @@ tk.Label(column3, text="Cultivate\nConnections", font=("black italic", 18, "bold
 tk.Button(column3, text="👥", font=("black italic", 60), fg=ACCENT_COLOR, bg=BG_COLOR,
         relief="flat", activebackground=BG_COLOR, activeforeground="#ff6b52", bd=0,
         cursor="hand2", command=click_cultivate).pack()
-
 
 root.mainloop()
