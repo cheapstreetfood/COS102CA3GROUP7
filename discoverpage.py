@@ -17,8 +17,15 @@ class ImageTextWidget(tk.Frame):
         pfp_path = current_dir / pfp_name
         main_image_path = current_dir / main_image_name
         
-        self.pfp_obj = ImageTk.PhotoImage(Image.open(pfp_path))
-        self.main_img_obj = ImageTk.PhotoImage(Image.open(main_image_path))
+        # Open and resize the profile picture (32x32 pixels)
+        pfp_image = Image.open(pfp_path)
+        resized_pfp = pfp_image.resize((32, 32), Image.Resampling.LANCZOS)
+        self.pfp_obj = ImageTk.PhotoImage(resized_pfp)
+        
+        # Open and resize the main post image (300x200 pixels)
+        main_image = Image.open(main_image_path)
+        resized_main = main_image.resize((300, 200), Image.Resampling.LANCZOS)
+        self.main_img_obj = ImageTk.PhotoImage(resized_main)
 
         self.header_frame = tk.Frame(self, bg=bg_color)
         self.header_frame.pack(side="top", fill="x", anchor="w", pady=(0, 8))
@@ -34,7 +41,9 @@ class ImageTextWidget(tk.Frame):
         self.image_label.image = self.main_img_obj  # Memory protection reference
         self.image_label.pack(side="top", anchor="w", pady=(0, 6))
 
-        self.caption_label = tk.Label(self, text=caption_text, fg="#E2E8F0", bg=bg_color, font=("Arial", 10), justify="left")
+        # wraplength=300 ensures text wraps perfectly inside the new image boundaries
+        self.caption_label = tk.Label(self, text=caption_text, fg="#E2E8F0", bg=bg_color, 
+                                    font=("Arial", 10), justify="left", wraplength=300)
         self.caption_label.pack(side="top", anchor="w")
 
 
@@ -64,15 +73,31 @@ class DiscoverPanel(tk.Frame):
         self.canvas.bind("<Enter>", self.on_mouse_enter)
         self.canvas.bind("<Leave>", self.on_mouse_leave)
 
+
+        post_data = [
+            {"img": "othedev.png", "pfp": "joshua1.png", "user": "agbadev_josh", "caption": "Cooking in the morning is a scam"},
+            {"img": "divine2.png", "pfp": "divine1.png", "user": "divinest_of_them_all", "caption": "Went to the museum"},
+            {"img": "peace1.png", "pfp": "peace2.png", "user": "peacebeuntoyou", "caption": "Must it rain everyday i dont get"},
+            {"img": "ebube2.png", "pfp": "ebube1.png", "user": "Neonwise_7", "caption": "new codes, dm for more info"},
+            {"img": "mahfuz2.png", "pfp": "mahfuz1.png", "user": "fuzfuz08!", "caption": "This museum e get as e be"},
+            {"img": "brian1.png", "pfp": "brian2.png", "user": "Oga_Brine", "caption": "tufffffffffffffff"}
+        ]
+
+        
+
+
+
         for i in range(6):
             row_idx = i // 2
             col_idx = i % 2
+            current_post = post_data[i]
+            
             widget_instance = ImageTextWidget(
                 parent=self.scrollable_inner_frame,
-                main_image_name="othedev.png",
-                username_text=f"user_profile_{i+1}",
-                caption_text=f"This is item {i+1} placed inside column {col_idx} of row {row_idx}.",
-                pfp_name="discovericon.png",
+                main_image_name=current_post["img"],
+                pfp_name=current_post["pfp"],
+                username_text=current_post["user"],
+                caption_text=current_post["caption"],
                 bg="#171923"
             )
             widget_instance.grid(row=row_idx, column=col_idx, padx=25, pady=25, sticky="nw")
@@ -148,7 +173,7 @@ class DiscoverPage(tk.Toplevel):
         self.panels["DiscoverPanel"].tkraise()
 
     def show_messages(self):
-        self.panels["ServerPage"].tkraise()
+        self.panels["ConnectPanel"].tkraise()
 
     def show_connect(self):
         self.panels["ServerPage"].tkraise()

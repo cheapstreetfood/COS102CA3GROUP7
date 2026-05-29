@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 class ConnectPanel(tk.Frame):
 
-    def __init__(self, parent, csv_filename="kulture.csv", **kwargs):
+    def __init__(self, parent, csv_filename="kulturedb.csv", **kwargs):
         super().__init__(parent, **kwargs)
         self.csv_filename = csv_filename
 
@@ -13,13 +13,13 @@ class ConnectPanel(tk.Frame):
 
         tk.Label(
             profile_container,
-            text="John Doe",
+            text="Janet Akinkugbe",
             font=("Arial", 16, "bold"),
             bg="#171923",
             fg="white",
         ).pack(anchor="w", padx=10, pady=5)
 
-        bio_text = "Software Developer. Loves coding, coffee, and building Python GUIs."
+        bio_text = "Oga bata bata na me bikoooooooooo. Graduated with Bsc Computer Science.Currently interning at Pinterest"
         tk.Label(
             profile_container,
             text=bio_text,

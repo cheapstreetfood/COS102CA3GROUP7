@@ -1,7 +1,27 @@
 import customtkinter as ctk
+import csv
+import subprocess
+
+CSV_FILE = "kulturedb.csv"
+NAVSCRIPT = "navigation_page.py"
 
 def enter():
-    print("enter")
+    input_username = username_entry.get().strip()
+    input_password = password_entry.get().strip()
+
+    is_valid = False
+
+    with open(CSV_FILE, mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if not row:
+                continue
+            if row[0].strip() == input_username and row[1].strip() == input_password:
+                is_valid = True
+                break
+    
+    if is_valid:
+        subprocess.Popen(["python",NAVSCRIPT])
 
 # Global appearance settings
 ctk.set_appearance_mode("dark")
@@ -59,3 +79,4 @@ enter_button.pack(pady=(1, 25))
 
 
 root.mainloop()
+

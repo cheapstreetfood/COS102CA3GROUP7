@@ -5,7 +5,7 @@ import tkinter as tk
 HEADER = 64
 FORMAT = "utf-8"
 PORT = 5050
-SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = "192.168.0.132"
 ADDR = (SERVER, PORT)
 
 def send(msg):
@@ -16,8 +16,8 @@ def send(msg):
     client.send(message)
 
 class BubbleChat(tk.Frame):
-    def __init__(self, parent):
-        super().__init__(parent)
+    def _init_(self, parent):
+        super()._init_(parent)
         self.canvas = tk.Canvas(self, bg="#0d0f1a", highlightthickness=0)
         scrollbar = tk.Scrollbar(self, command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=scrollbar.set)
@@ -66,8 +66,8 @@ class BubbleChat(tk.Frame):
 
 
 class App(tk.Tk):
-    def __init__(self):
-        super().__init__()
+    def _init_(self):
+        super()._init_()
         self.title("SocketChat")
         self.geometry("400x500")
         self.configure(bg="#0d0f1a")
@@ -100,12 +100,17 @@ class App(tk.Tk):
 
 
 def receive(app):
-    app.after(0, app.display_received, f"connected to {SERVER}")
+    app.after(0, lambda: app.display_received(f"Connected to {SERVER}"))
     while True:
-        msg_len = client.recv(HEADER).decode(FORMAT)
-        if msg_len:
-            msg = client.recv(int(msg_len)).decode(FORMAT)
-            app.after(0, app.display_received, msg)
+        try:
+            msg_len = client.recv(HEADER).decode(FORMAT)
+            if msg_len:
+                msg = client.recv(int(msg_len)).decode(FORMAT)
+                # Force the main thread to render the bubble safely on the screen
+                app.after(0, lambda m=msg: app.display_received(m))
+        except Exception as e:
+            print(f"[CLIENT ERROR]: {e}")
+            break
 
 app = App()
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

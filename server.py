@@ -1,11 +1,22 @@
 import socket
 import threading
 import tkinter as tk
-
+import time
 HEADER = 64
 FORMAT="utf-8"
 PORT = 5050
-SERVER = socket.gethostbyname(socket.gethostname())#gets ip addresss automatically
+def get_active_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # Connects to a dummy address to force Windows to find the active route
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = "0.0.0.0" # Fallback if completely offline
+    finally:
+        s.close()
+    return ip
+SERVER = get_active_ip()
 print(SERVER)
 ADDR = (SERVER, PORT)
 DISCONNECT_MESSAGE = "!DISCONNECT"
@@ -127,18 +138,21 @@ class ServerPage(tk.Frame):
 
 
     def start_server(self):
+        time.sleep(0.1)
         self.server.listen(1)
-        self.after(0, self.add_bubble, "Waiting for connection...")
-        self.conn, addr = self.server.accept()  # blocks until client connects
-        self.after(0, self.add_bubble, f"Connected: {addr}")
-        while True:  # receive loop
-            msg_len = self.conn.recv(HEADER).decode(FORMAT)
-            if msg_len:
-                msg_len = int(msg_len)
-                msg = self.conn.recv(msg_len).decode(FORMAT)
-                self.after(0, self.add_bubble,msg)    
-
-        
+        self.after(0, self.add_bubble, "Waiting for connection...", "left")
+        try:
+            self.conn, addr = self.server.accept()  
+            self.after(0, self.add_bubble, f"Connected: {addr}", "left")
+            while True:  
+                msg_len = self.conn.recv(HEADER).decode(FORMAT)
+                if msg_len:
+                    msg_len = int(msg_len)
+                    msg = self.conn.recv(msg_len).decode(FORMAT)
+                    # Force Tkinter to display the received message safely on the left side
+                    self.after(0, lambda m=msg: self.add_bubble(m, "left"))    
+        except Exception as e:
+            print(f"[SERVER ERROR]: {e}")
 
         
 
